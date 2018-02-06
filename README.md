@@ -4,6 +4,6 @@ Organizing income and expenses in a simple fashion. Allows integration with Goog
 
 ## Build
 
-webpack
+`webpack`
 
 ## Todo
