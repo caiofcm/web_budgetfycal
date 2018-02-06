@@ -1,139 +1,466 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
-        <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <link type="text/css" rel="stylesheet" href="style.css">
-        <title>Budgety</title>
-    </head>
-    <body>
-        
-        <div class="top">
-            <div class="budget">
-                <div class="budget__title">
-                    Available Budget in <span class="budget__title--month">%Month%</span>:
-                </div>
-                
-                <div class="budget__value">+ 2,345.64</div>
-                
-                <div class="budget__income clearfix">
-                    <div class="budget__income--text">Income</div>
-                    <div class="right">
-                        <div class="budget__income--value">+ 4,300.00</div>
-                        <div class="budget__income--percentage">&nbsp;</div>
-                    </div>
-                </div>
-                
-                <div class="budget__expenses clearfix">
-                    <div class="budget__expenses--text">Expenses</div>
-                    <div class="right clearfix">
-                        <div class="budget__expenses--value">- 1,954.36</div>
-                        <div class="budget__expenses--percentage">45%</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="middle">
-            <button class="btn-menu load__btn">Load Budget</button>
-            <button class="btn-menu save__btn">Save Budget</button>
-            <button class="btn-menu charts__btn">Show Charts</button>
-        </div>
-        
-        
-        <div class="bottom">
-            <div class="add">
-                <div class="add__container">
-                    <select class="add__type">
-                        <option value="inc" selected>+</option>
-                        <option value="exp">-</option>
-                    </select>
-                    <input type="text" class="add__description" placeholder="Add description">
-                    <input type="number" min="0" class="add__value" placeholder="Value">
-                    <button class="add__btn"><i class="ion-ios-checkmark-outline"></i></button>
-                </div>
-            </div>
-            
-            <div class="container clearfix">
-                <div class="income">
-                    <h2 class="icome__title">Income</h2>
-                    
-                    <div class="income__list">
-                       
-                        <!--
-                        <div class="item clearfix" id="income-0">
-                            <div class="item__description">Salary</div>
-                            <div class="right clearfix">
-                                <div class="item__value">+ 2,100.00</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="item clearfix" id="income-1">
-                            <div class="item__description">Sold car</div>
-                            <div class="right clearfix">
-                                <div class="item__value">+ 1,500.00</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        -->
-                        
-                    </div>
-                </div>
-                
-                
-                
-                <div class="expenses">
-                    <h2 class="expenses__title">Expenses</h2>
-                    
-                    <div class="expenses__list">
-                       
-                        <!--
-                        <div class="item clearfix" id="expense-0">
-                            <div class="item__description">Apartment rent</div>
-                            <div class="right clearfix">
-                                <div class="item__value">- 900.00</div>
-                                <div class="item__percentage">21%</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="item clearfix" id="expense-1">
-                            <div class="item__description">Grocery shopping</div>
-                            <div class="right clearfix">
-                                <div class="item__value">- 435.28</div>
-                                <div class="item__percentage">10%</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        -->
-                        
-                    </div>
-                </div>
-            </div>
+<head>
 
-            <div class="container clearfix charts">
-                <h1>Charts</h1>
-                <h2 class="left-text">Income: </h2>
-                <div id="chart-inc" class="chart">
-                </div>
-                <h2 class="left-text">Expenses: </h2>
-                <div id="chart-exp" class="chart">
-                </div>
-            </div>
-        </div>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-        
-        <script src="./src/app.js"></script>
-    </body>
+	<title>Budgetfy Light</title>
+
+	<meta name="google-signin-client_id" content="292585574072-b8cv3s6m1eqt8iq403r7bl0huvtdaht2.apps.googleusercontent.com">
+
+	<!-- Bootstrap core CSS -->
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom fonts for this template -->
+	<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+	<link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
+	<link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+	
+	<!-- Plotly -->
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+	<!-- Custom styles for this template -->
+	<link href="css/grayscale.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+		<div class="container">
+			<a class="navbar-brand js-scroll-trigger" href="#page-top">Budgetfy Light</a>
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+			 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				Menu
+				<i class="fa fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#inc-exp">Income & Expenses</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#options">Options</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#charts">Charts</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Intro Header -->
+	<header class="masthead">
+		<div class="intro-body">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 mx-auto">
+						<h1 class="brand-heading">Budgetfy Light</h1>
+						<p class="intro-text">A simple tool for you to organize your incomes and expenses.</p>
+						<a href="#inc-exp" class="btn btn-circle js-scroll-trigger">
+							<i class="fa fa-angle-double-down animated"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Income & Expenses Section -->
+	<section id="inc-exp" class="content-section text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mx-auto">
+					<h2>Income and Expenses List</h2>
+					<div class="row">
+						<div class="col-lg-12 mx-auto">
+							<p class="h5 mb-3">Available Budget in
+								<span class="budget__title--month">%Month%</span>:</p>
+							<p class="h3 mb-3 budget__value">%Value%</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 mx-auto">
+							<div class="alert alert-success" role="alert">
+								<div class="row">
+									<div class="col-lg-6">
+										<span class="h5">Income:</span>
+									</div>
+									<div class="col-lg-6 budget__income--value">
+										<strong>0.0</strong>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 mx-auto">
+							<div class="alert alert-danger" role="alert">
+								<div class="row">
+									<div class="col-lg-6">
+										<span class="h5">Expenses:</span>
+									</div>
+									<div class="col-lg-6 text-left">
+										<span class="budget__expenses--value">
+											<strong>0.0</strong>
+										</span>
+										<div class="budget__expenses--percentage">45%</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr class="bg-light" />
+			<div class="row my-4 justify-content-center">
+				<div class="col-lg-1">
+					<select class="custom-select add__type" id="inputGroupSelect02">
+						<option value="inc" selected>+</option>
+						<option value="exp">-</option>
+					</select>
+				</div>
+				<div class="col-lg-5">
+					<input type="text" class="form-control add__description" placeholder="Description">
+				</div>
+				<div class="col-lg-2">
+					<input type="number" min="0" class="form-control add__value" placeholder="Value">
+				</div>
+				<div class="col-lg-3">
+					<input type="text" class="form-control" id="datepicker" placeholder="MM/DD/YYYY">
+				</div>
+				<div class="col-lg-1">
+					<button type="button" class="add__btn">
+						<i class="ion-ios-checkmark-outline"></i>
+					</button>
+				</div>
+			</div>
+
+			<div class="row justify-content-center list-items">
+				<div class="col-lg-6 mb-3">
+					<div class="row justify-content-center">
+						<h4 class="text-success">Income</h4>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-lg-12">
+
+							<div id="incToolBar">
+								<!-- <button id="removeBtn-table-inc" class="btn btn-default">REMOVE</button> -->
+								<button type="button" class="btn btn-default text-dark" id="removeBtn-table-inc">
+									<i class="icon ion-trash-a text-white"></i>
+								</button>
+							</div>
+							<table class="table-no-bordered table-dark" id="inc-table" data-show-header="true" data-classes="table table-hover table-condensed"
+							 data-striped="true" data-toolbar="#incToolBar" data-unique-id="id" data-sort-name="date" data-sort-order="desc"
+							 data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false">
+								<thead>
+									<tr>
+										<!-- <th data-field="id" data-visible="false">Id</th> -->
+										<!-- <th data-field="state" data-checkbox="true">Select</th> -->
+										<!-- <th data-field="date" data-align="center" class="col-xs-4" data-sortable="true">Date</th> -->
+										<!-- <th data-field="description" data-align="center" class="col-xs-4" data-sortable="true">Description</th> -->
+										<!-- <th data-field="value" data-align="right" class="col-xs-4" data-sortable="true">Value</th> -->
+									</tr>
+								</thead>
+							</table>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-lg-6 mb-3">
+					<h4 class="text-danger">Expense</h4>
+					<div class="row justify-content-center">
+						<div class="col-lg-12">
+
+							<div id="expToolBar">
+								<button type="button" class="btn btn-default text-dark" id="removeBtn-table-exp">
+									<i class="icon ion-trash-a text-white"></i>
+								</button>
+							</div>
+							<table class="table-no-bordered table-dark" id="exp-table" data-show-header="true" data-classes="table table-hover table-condensed"
+							 data-striped="true" data-toolbar="#expToolBar" data-unique-id="id" data-sort-name="date" data-sort-order="desc">
+								<thead>
+									<tr>
+										<!-- <th data-field="id" data-visible="false"></th> -->
+										<!-- <th data-field="state" data-checkbox="true"></th> -->
+										<!-- <th data-field="date" data-formatter="" data-align="center" class="col-xs-4" data-sortable="true">Date</th> -->
+										<!-- <th data-field="description" data-align="center" class="col-xs-4" data-sortable="true">Description</th> -->
+										<!-- <th data-field="value" data-align="right" class="col-xs-4" data-sortable="true">Value</th> -->
+									</tr>
+								</thead>
+							</table>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- Options Section -->
+	<section id="options" class="download-section content-section text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<button type="button" class="load__btn btn btn-lg btn-secondary mb-2" data-toggle="modal" data-target="#loadModal">LOAD</button>
+				</div>
+				<div class="col-lg-6">
+					<button type="button" class="save__btn btn btn-lg btn-secondary mb-2" data-toggle="modal" data-target="#saveModal">SAVE</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Charts Section -->
+	<section id="charts" class="content-section text-center">
+		<div class="container">
+			<div class="col-lg-8 mx-auto">
+				<h2>Charts</h2>
+				<ul class="nav nav-tabs" id="tabChart" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link" id="chart-inc-tab" data-toggle="tab" href="#chart-inc-content" role="tab" aria-controls="home" aria-selected="true">Income</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="chart-exp-tab" data-toggle="tab" href="#chart-exp-content" role="tab" aria-controls="profile" aria-selected="false">Expenses</a>
+					</li>
+				</ul>
+				<div class="tab-content mt-4" id="myTabContent">
+					<div class="tab-pane fade show" id="chart-inc-content" role="tabpanel" aria-labelledby="home-tab">
+					</div>
+					<div class="tab-pane fade" id="chart-exp-content" role="tabpanel" aria-labelledby="profile-tab">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Contact Section -->
+	<section id="contact" class="content-section text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mx-auto">
+					<h2>Contact Us</h2>
+					<p>Feel free to leave us a comment. </p>
+					<ul class="list-inline banner-social-buttons">
+						<li class="list-inline-item">
+							<a href="" class="btn btn-default btn-lg">
+								<i class="fa fa-twitter fa-fw"></i>
+								<span class="network-name">Twitter</span>
+							</a>
+						</li>
+						<!-- https://github.com/BlackrockDigital/startbootstrap -->
+						<li class="list-inline-item"> 
+							<a href="" class="btn btn-default btn-lg">
+								<i class="fa fa-github fa-fw"></i>
+								<span class="network-name">Github</span>
+							</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="" class="btn btn-default btn-lg">
+								<i class="fa fa-google-plus fa-fw"></i>
+								<span class="network-name">Google+</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Map Section -->
+	<!-- <div id="map"></div> -->
+
+	<!-- Alert Notification -->
+	<div class="myAlert-bottom alert alert-danger">
+		<a class="close" onclick="$('.myAlert-bottom').hide()" aria-label="close">&times;</a>
+		<strong></strong>
+	</div>
+
+	<!-- Footer -->
+	<footer>
+		<div class="container text-center">
+			<p>Copyright &copy; CFCM 2018</p>
+		</div>
+	</footer>
+
+	<!-- LOAD Modal -->
+	<div class="modal fade" id="loadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-dark" id="exampleModalLabel">Load Budget</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs" id="loadTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link tab-load" id="nav-tab-load-stg" data-toggle="tab" href="#load-local-stg" role="tab" aria-controls="home"
+							 aria-selected="true">Local Storage</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link tab-load" id="nav-tab-load-fsys" data-toggle="tab" href="#load-file-sys" role="tab" aria-controls="profile"
+							 aria-selected="false">File System</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link tab-load" id="nav-tab-load-cal" data-toggle="tab" href="#load-google-cal" role="tab" aria-controls="profile"
+							 aria-selected="false">Google Calendar</a>
+						</li>
+					</ul>
+					<div class="tab-content mt-4" id="tabLoadContent">
+						<div class="tab-pane fade show text-dark" id="load-local-stg" role="tabpanel" aria-labelledby="home-tab">
+							<div class="form-group">
+								<label for="selectLocalStg">Select data to load</label>
+								<select class="form-control" id="selectLocalStg">
+									<option disabled="disabled" selected="selected">Select an option.</option>
+								</select>
+							</div>
+						</div>
+						<div class="tab-pane fade text-dark" id="load-file-sys" role="tabpanel" aria-labelledby="profile-tab">
+							L2
+						</div>
+						<div class="tab-pane fade text-dark" id="load-google-cal" role="tabpanel" aria-labelledby="profile-tab">
+							<p>Sign in to Google and click OK to retrieve Budget data from Google Calendar.</p>
+							<!-- <div id="my-signin2"></div> -->
+							<!-- <button id="authorize-button" style="display: none;">Authorize</button> -->
+							<button type="button" class="btn btn-primary auth-google" style="display: none;">
+								<i class="fa fa-google fa-fw"></i> Authorize
+							</button>
+							<button type="button" class="btn btn-primary signout-google" style="display: none;">
+								 Sign Out
+							</button>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-12">
+										<label for="selectCal">Active calendars:</label>
+										<select class="form-control" id="selectCal">
+											<option disabled="disabled" selected="selected">Chose your budget ready calendar</option>
+											</select>
+									</div>
+									<div class="col-sm-8">
+										<div class="input-group input-daterange date-range-load">
+											<input type="text" id="datePickerLoadIni" class="form-control" placeholder="Initial date">
+											<!-- <div class="input-group-addon ">&nbsp to &nbsp</div> -->
+											<label class="input-group-addon" for="">
+												 &nbsp to &nbsp
+											</label>
+											<input type="text" id="datePickerLoadEnd" class="form-control" placeholder="Final date">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary ok-load-btn">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- SAVE Modal -->
+	<div class="modal fade" id="saveModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-dark">Save Budget</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs" id="saveTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link tab-save" id="nav-tab-save-stg" data-toggle="tab" href="#save-local-stg" role="tab" aria-controls="home"
+							 aria-selected="true">Local Storage</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link tab-save" id="nav-tab-save-fsys" data-toggle="tab" href="#save-file-sys" role="tab" aria-controls="profile"
+							 aria-selected="false">File System</a>
+						</li>
+					</ul>
+					<div class="tab-content mt-4" id="tabSaveContent">
+						<div class="tab-pane fade show text-dark" id="save-local-stg" role="tabpanel" aria-labelledby="home-tab">
+							<div class="form-group">
+								<label for="inputSaveKey">Select data to save:&nbsp</label>
+								<input type="text" id="inputSaveKey">
+							</div>
+						</div>
+						<div class="tab-pane fade text-dark" id="save-file-sys" role="tabpanel" aria-labelledby="profile-tab">
+							L2
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary ok-save-btn">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Bootstrap DataPicker -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+
+	<!-- Bootstrap Table -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+	<!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script> -->
+
+	<!-- <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script> -->
+	<!-- <script async defer src="https://apis.google.com/js/api.js"></script> -->
+	
+	<script async defer src="https://apis.google.com/js/api.js"></script>
+	<!-- <script>
+		var clientLoaded = false;
+		function handleClientLoad() {
+			if (!clientLoaded &&
+				typeof googleAPIController.initClient !== "undefined" &&
+				typeof gapi !== "undefined") {
+				clientLoaded = true;
+				// mainScriptLoad();
+				gapi.load('client:auth2', googleAPIController.initClient);
+			}
+		}
+	</script> -->
+
+	<!-- <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"> -->
+	<!-- </script> -->
+
+	<!-- Custom scripts for this template -->
+	<!-- <script src="js/grayscale.js"></script>
+	<script src="js/app.js"></script> -->
+	<!-- <script type="text/javascript" src="dist/bundle.js"></script> -->
+	<!-- <script type="text/javascript" src="bundle.min.js"></script></body> -->
+	<script type="text/javascript" src="bundle.min.js"></script>
+
+</body>
+
 </html>
+
+

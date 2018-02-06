@@ -5,7 +5,7 @@ var initBudgetData = {
 		{ description: 'Backend Project for Spotify ', value: 2500 },
 		{ description: 'Sold U2 ticket ', value: 500 },
 		{ description: 'Salary ', value: 8000 },
-		{ description: 'Freelance toptal VueJS for geolocation ', value: 1245.20},
+		{ description: 'Freelance toptal VueJS for geolocation ', value: 1245.20 },
 	],
 	exp: [
 		{ description: 'Daycare', value: 2200 },
@@ -23,7 +23,7 @@ var budgetController = (function () {
 		this.value = value;
 		this.percentage = -1;
 	};
-	
+
 	Expense.prototype.calcPercentages = function (totInc) {
 		if (totInc > 0.0) {
 			this.percentage = Math.round(this.value / totInc * 100);
@@ -72,7 +72,7 @@ var budgetController = (function () {
 
 	var calculateTotal = function (type) {
 		var sum = 0.0;
-		data.allItems[type].forEach(function(v) {
+		data.allItems[type].forEach(function (v) {
 			sum += v.value;
 		});
 		data.totals[type] = sum;
@@ -97,8 +97,8 @@ var budgetController = (function () {
 			data.allItems[type].push(newItem);
 			return newItem;
 		},
-		deleteItem: function(type, ID) {
-			var itemDelete = data.allItems[type].find(function(el, i) {
+		deleteItem: function (type, ID) {
+			var itemDelete = data.allItems[type].find(function (el, i) {
 				if (el.id === ID) {
 					return i;
 				}
@@ -124,19 +124,19 @@ var budgetController = (function () {
 		},
 
 		calculatePercentages: function () {
-			data.allItems['exp'].forEach(function(cur) {
+			data.allItems['exp'].forEach(function (cur) {
 				cur.calcPercentages(data.totals.inc);
 			})
 		},
 
 		getPercentages: function (params) {
-			var allPerc = data.allItems.exp.map(function(cur) {
+			var allPerc = data.allItems.exp.map(function (cur) {
 				return cur.getPercentage();
 			});
 			return allPerc;
 		},
 
-		getBudget: function() {
+		getBudget: function () {
 			return {
 				budget: data.budget,
 				percentage: data.percentage,
@@ -150,7 +150,7 @@ var budgetController = (function () {
 		getAllDataItems: function (params) {
 			return data.allItems;
 		},
-		testing: function() {
+		testing: function () {
 			return data;
 		}
 	}
@@ -211,7 +211,7 @@ var UIController = (function () {
 		var numSplit = num.split('.');
 		var int = numSplit[0];
 		var dec = numSplit[1];
-		if(int.length > 3) {
+		if (int.length > 3) {
 			int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
 		};
 		tipo === 'exp' ? sign = '-' : sign = '+';
@@ -252,7 +252,7 @@ var UIController = (function () {
 			return DOMstrings
 		},
 
-		deleteListItem: function(selectorID) {
+		deleteListItem: function (selectorID) {
 			document.getElementById(selectorID).remove();
 		},
 
@@ -284,13 +284,13 @@ var UIController = (function () {
 			});
 		},
 
-		displayBudget: function(obj) {
+		displayBudget: function (obj) {
 			var typeAdd;
 			obj.budget > "=" ? typeAdd = 'inc' : typeAdd = 'exp';
 			document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, typeAdd);
 			document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, 'inc');
 			document.querySelector(DOMstrings.expenseLabel).textContent = formatNumber(obj.totalExp, 'exp');
-			
+
 			if (obj.percentage >= 0.0) {
 				document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%';
 			} else {
@@ -308,13 +308,13 @@ var UIController = (function () {
 			document.querySelector(DOMstrings.dateLabel).textContent = monthNames[month] + '/' + year;
 		},
 
-		changedType: function() {
+		changedType: function () {
 			var fields = document.querySelectorAll(
-				DOMstrings.inputType + ',' + 
+				DOMstrings.inputType + ',' +
 				DOMstrings.inputDescription + ',' +
 				DOMstrings.inputValue
 			);
-			nodeListForEach(fields, function(cur) {
+			nodeListForEach(fields, function (cur) {
 				cur.classList.add('red-focus');
 			});
 			document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
@@ -324,9 +324,9 @@ var UIController = (function () {
 			var itemsInc = dataAllItems.inc;
 			var itemsExp = dataAllItems.exp;
 			var layout = {
-					height: 400,
-					width: 700
-				};
+				height: 400,
+				width: 700
+			};
 			if (itemsInc.length > 0) {
 				var dataInc = treatDataForPieChart(itemsInc);
 				Plotly.newPlot(DOMstrings.chartInc.slice(1), dataInc, layout);
@@ -338,7 +338,7 @@ var UIController = (function () {
 				Plotly.newPlot(DOMstrings.chartExp.slice(1), dataExp, layout);
 			} else {
 				console.log('No data to show in chart.');
-			}			
+			}
 		}
 	}
 })();
@@ -347,7 +347,7 @@ var controller = (function (budgetCtrl, UICtrl) {
 
 	var DOMstings;
 
-	var setupEventListeners = function() {
+	var setupEventListeners = function () {
 		DOMstrings = UICtrl.getDOMStrings();
 
 		document.querySelector(DOMstrings.inputBtn).addEventListener('click', addValueButton);
@@ -355,22 +355,22 @@ var controller = (function (budgetCtrl, UICtrl) {
 			if (e.keyCode === 13 || e.which === 13) {
 				addValueButton();
 			}
-			
+
 		});
 
 		document.querySelector(DOMstrings.container).addEventListener('click', ctrlDeleteItem);
 
 		document.querySelector(DOMstrings.inputType).addEventListener('change', UICtrl.changedType)
-	
+
 		document.querySelector(DOMstrings.loadBtn).addEventListener('click', clickLoadData);
-		
+
 		document.querySelector(DOMstrings.chartsBtn).addEventListener('click', clickShowCharts);
 	};
 
 	var validateAddValues = function (addedSettings) {
 		var isValid = true;
 		var description = addedSettings.description;
-		if (description.trim() === '' || description === undefined || description === null ) {
+		if (description.trim() === '' || description === undefined || description === null) {
 			isValid = false;
 		}
 		if (isNaN(addedSettings.value) || addedSettings.value <= 0) {
@@ -409,7 +409,7 @@ var controller = (function (budgetCtrl, UICtrl) {
 		updateBudget();
 
 		// - Calculate percentages
-		updatePercentages();		
+		updatePercentages();
 	};
 
 	var addValueButton = function () {
@@ -420,7 +420,7 @@ var controller = (function (budgetCtrl, UICtrl) {
 
 		addItemProcedure(addedSettings);
 	};
-	
+
 	var updatePercentages = function () {
 		// Calc percentages
 		budgetCtrl.calculatePercentages();
@@ -432,7 +432,7 @@ var controller = (function (budgetCtrl, UICtrl) {
 		UICtrl.displayPercentages(allPerc);
 	};
 
-	var ctrlDeleteItem = function(e) {
+	var ctrlDeleteItem = function (e) {
 		var itemID = e.target.parentNode.parentNode.parentNode.parentNode.id;
 		if (itemID) {
 			var splitID = itemID.split('-');
@@ -457,7 +457,7 @@ var controller = (function (budgetCtrl, UICtrl) {
 		return initBudgetData;
 	};
 
-	var ctrlLoadBudgetData = function() {
+	var ctrlLoadBudgetData = function () {
 		budgetCtrl.ctrlLoadBudgetData();
 	}
 
@@ -484,11 +484,11 @@ var controller = (function (budgetCtrl, UICtrl) {
 			auxItem.description = cur.description;
 			auxItem.value = cur.value;
 			addItemProcedure(auxItem);
-		});		
+		});
 	}
- 
+
 	var clickShowCharts = function () {
-		
+
 		// Show Charts
 		var eleChart = document.querySelector(DOMstrings.chartDiv);
 		console.log(eleChart.style.display);
