@@ -10,17 +10,17 @@ import "./grayscale.js";
 
 var initBudgetData = {
 	inc: [
-		{ description: 'Web dev Butcher Project ', value: 500, date: '02/01/2018' },
-		{ description: 'Backend Project for Spotify ', value: 2500, date: '02/01/2018' },
-		{ description: 'Sold U2 ticket ', value: 500, date: '02/01/2018' },
-		{ description: 'Salary ', value: 8000, date: '02/01/2018' },
-		{ description: 'Freelance toptal VueJS for geolocation ', value: 1245.20, date: '02/01/2018' },
+		{ description: 'Web dev Butcher Project ', value: 500, date: '02-01-2018' },
+		{ description: 'Backend Project for Spotify ', value: 2500, date: '02-03-2018' },
+		{ description: 'Sold U2 ticket ', value: 500, date: '01-14-2018' },
+		{ description: 'Salary ', value: 8000, date: '11-01-2017' },
+		{ description: 'Freelance toptal VueJS for geolocation ', value: 1245.20, date: '12-01-2017' },
 	],
 	exp: [
-		{ description: 'Daycare', value: 2200, date: '02/01/2018' },
-		{ description: 'Clothes', value: 200.21, date: '02/01/2018' },
-		{ description: 'Bills', value: 625.00, date: '02/01/2018' },
-		{ description: 'Friday 13 Happy hour', value: 125.70, date: '02/01/2018' }
+		{ description: 'Daycare', value: 2200, date: '02-01-2018' },
+		{ description: 'Clothes', value: 200.21, date: '02-01-2018' },
+		{ description: 'Bills', value: 625.00, date: '02-01-2018' },
+		{ description: 'Friday 13 Happy hour', value: 125.70, date: '02-01-2018' }
 	]
 }
 
@@ -228,7 +228,9 @@ var UIController = (function () {
 		tabChart: '#tabChart',
 		chartIncTab: '#chart-inc-tab',
 		chartExpTab: '#chart-exp-tab',
+		chartTimeTab: '#chart-time-tab',
 		chartInc: '#chart-inc-content',
+		chartTimed: '#chart-time-content',
 		chartExp: '#chart-exp-content',
 		saveModal: '#saveModal',
 		datePicker: '#datepicker',
@@ -255,18 +257,14 @@ var UIController = (function () {
 	var $addDate = document.querySelector(DOMstrings.datePicker);
 
 	var nodeListForEach = function (list, callback) {
-		for (var i = 0; i < list.length; i++) {
+		for (let i = 0; i < list.length; i++) {
 			callback(list[i], i);
 		}
 	};
 
 	var treatDataForPieChart = function (dataList) {
-		var labels = dataList.map(function (cur) {
-			return cur.description;
-		});
-		var values = dataList.map(function (cur) {
-			return cur.value;
-		});
+		const labels = dataList.map(cur => cur.description);
+		const values = dataList.map(cur => cur.value);
 		return [{
 			type: 'pie',
 			values: values,
@@ -274,20 +272,77 @@ var UIController = (function () {
 		}];
 	};
 
+	var getTimedChartInfo = function () {
+		return {};
+	};
+
+	var treatDataForBarChart = function (dataList) {
+		var data = Array(2);
+		['inc', 'exp'].forEach((cur, idx) => {
+			var labels = dataList[cur].map(it => it.date);
+			var values = dataList[cur].map(it => it.value);
+			let arrVals = [], arrLbls = [];
+			let remainLbls = labels.slice(), remainVals = values.slice();
+			for (let k = 0; k < labels.length; k++) {
+				if (remainLbls.length === 0) {
+					break;
+				}
+				let flag = true;
+				let accm = 0.0;
+				while (flag) {
+					const idxOf = remainLbls.findIndex((el) => {
+						return el === labels[k] ? true : false;
+					});
+					if (idxOf >= 0) {
+						accm += remainVals[idxOf];
+						remainLbls.splice(idxOf, 1);
+						remainVals.splice(idxOf, 1);
+					} else {
+						arrLbls.push(labels[k]);
+						arrVals.push(accm);
+						break;
+					}
+				}
+			}
+			var aux = {
+				x: arrLbls,
+				y: arrVals,
+				name: cur,
+				type: 'bar',
+			};
+			data[idx] = aux;
+		});
+		return data; 
+	}
+
 	var formatNumber = function (num, tipo) {
 		var sign;
-		num = Math.abs(num);
-		num = num.toFixed(2);
-		var numSplit = num.split('.');
-		var int = numSplit[0];
-		var dec = numSplit[1];
-		if (int.length > 3) {
-			int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
-		};
+		// num = Math.abs(num);
+		// num = num.toFixed(2);
+		// var numSplit = num.split('.');
+		// var int = numSplit[0];
+		// var dec = numSplit[1];
+		// if (int.length > 3) {
+		// 	int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+		// };
+		// const val = this.totalFormatter(num);
+		const val = num.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
 		tipo === 'exp' ? sign = '-' : sign = '+';
 
-		return sign + ' ' + int + '.' + dec;
+		// return sign + ' ' + int + '.' + dec;
+		return sign + ' ' + val;
 	};
+
+	function formattedNumberToFloat(numString) {
+		var splitted = numString.split(' ');
+		var sign = splitted[0].trim()[0];
+		var int_dec = splitted[1].split('.');
+		var val_int = parseFloat(int_dec[0].split(',').join(''));
+		var val_dec = parseFloat(int_dec[1]);
+		var val = val_int + val_dec / 100.0;
+		var val_final = sign === '+' ? val : -val;
+		return val_final;
+	}
 
 	var getActiveTabContent = function (tabContentString) {
 		var elActiveContent = $(tabContentString + ' div.active');
@@ -298,7 +353,7 @@ var UIController = (function () {
 	var convertDate = function (inputFormat) {
 		function pad(s) { return (s < 10) ? '0' + s : s; }
 		var d = new Date(inputFormat);
-		return [pad(d.getMonth() + 1), pad(d.getDate()), d.getFullYear()].join('/');
+		return [pad(d.getMonth() + 1), pad(d.getDate()), d.getFullYear()].join('-');
 	};
 
 	var initializeDatePicker = function () {
@@ -318,6 +373,33 @@ var UIController = (function () {
 		return '<span style="font-size: 12px;"><em>' + value + '</em></span>';
 	};
 
+	var dateSorter = function (before, after) {
+		var mm_dd_yyyy = before.split('-');
+		var mm = parseInt(mm_dd_yyyy[0]);
+		var dd = parseInt(mm_dd_yyyy[1]);
+		var yyyy = parseInt(mm_dd_yyyy[2]);
+		var mm_dd_yyyy = after.split('-');
+		var mmA = parseInt(mm_dd_yyyy[0]);
+		var ddA = parseInt(mm_dd_yyyy[1]);
+		var yyyyA = parseInt(mm_dd_yyyy[2]);
+		if (yyyy < yyyyA) return -1;
+		if (yyyy > yyyyA) return 1;
+		if (mm < mmA) return -1;
+		if (mm > mmA) return 1;
+		if (dd < ddA) return -1;
+		if (dd > ddA) return 1;
+		return 0;
+	};
+
+	var valueSorter = function (before, after) {
+		var num_before = formattedNumberToFloat(before);
+		var num_after = formattedNumberToFloat(after);
+		if (num_before < num_after) return -1;
+		if (num_before > num_after) return 1;
+		return 0;
+
+	}
+
 	var getColumnsTableSettings = function () {
 		var columns = [
 			{
@@ -336,7 +418,8 @@ var UIController = (function () {
 				"align": "center",
 				"class": "col-xs-4",
 				"sortable": true,
-				"formatter": dateTableFormatter
+				"formatter": dateTableFormatter,
+				"sorter": dateSorter
 			},
 			{
 				"field": "description",
@@ -350,7 +433,8 @@ var UIController = (function () {
 				"title": "Value",
 				"align": "center",
 				"class": "col-xs-4",
-				"sortable": true
+				"sortable": true,
+				"sorter": valueSorter
 			}
 		]
 		return columns;
@@ -377,9 +461,10 @@ var UIController = (function () {
 				value: parseFloat($addValue.value),
 				description: $addDescription.value,
 				type: selectedType,
-				date: $addDate.value
+				date: convertDate($addDate.value)
 			}
 		},
+
 		addListItem: function (obj, type) {
 			var html, newHtml, element;
 			var $tableEl;
@@ -477,7 +562,7 @@ var UIController = (function () {
 			document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
 		},
 
-		generateChart: function (dataChart, destElString) {
+		generatePieCharts: function (dataChart, destElString) {
 			var layout = {
 				height: 400,
 				width: 700,
@@ -490,19 +575,73 @@ var UIController = (function () {
 					tickcolor: '#fff'
 				},
 			};
-
 			var textfont = {
 				family: 'Lato',
 				color: 'white',
 				size: 14
 			}
-
 			if (dataChart.length > 0) {
 				var dataInc = treatDataForPieChart(dataChart);
 				dataInc[0].textfont = textfont;
 				Plotly.newPlot(destElString, dataInc, layout);
 			} else {
 				console.log('No data to show in chart.');
+			}
+		},
+
+		generateBarCharts: function (dataChart, destElString) {
+			var layout = {
+				height: 400,
+				width: 700,
+				paper_bgcolor: 'rgba(0,0,0,0)',
+				plot_bgcolor: 'rgba(0,0,0,0)',
+				legend: {
+					font: { size: 14, color: 'white' }
+				},
+				xaxis: {
+					tickcolor: '#fff'
+				},
+				barmode: 'stack',
+				xaxis: {
+					tickfont: {
+						size: 14,
+						color: 'rgb(107, 107, 107)'
+					}
+				},
+				yaxis: {
+					title: '$',
+					titlefont: {
+						size: 16,
+						color: 'rgb(107, 107, 107)'
+					},
+					tickfont: {
+						size: 14,
+						color: 'rgb(107, 107, 107)'
+					}
+				},
+			};
+			// var textfont = {
+			// 	family: 'Lato',
+			// 	color: 'white',
+			// 	size: 14
+			// }
+			if (dataChart.inc.length > 0 || dataChart.exp.length > 0) {
+				var dataTreated = treatDataForBarChart(dataChart);
+				// dataTreated[0].textfont = textfont;
+				Plotly.newPlot(destElString, dataTreated, layout);
+			} else {
+				console.log('No data to show in chart.');
+			}
+		},
+
+		generateChart: function (dataAll, destElString) {
+			if (destElString === DOMstrings.chartIncTab.slice(1)) {
+				this.generatePieCharts(dataAll.inc, DOMstrings.chartInc.slice(1));
+			} else if (destElString === DOMstrings.chartExpTab.slice(1)) {
+				this.generatePieCharts(dataAll.exp, DOMstrings.chartExp.slice(1));
+			} else if (destElString === DOMstrings.chartTimeTab.slice(1)) {
+				var infos = getTimedChartInfo();
+				this.generateBarCharts(dataAll, DOMstrings.chartTimed.slice(1), infos);
 			}
 		},
 
@@ -634,11 +773,17 @@ var googleAPIController = (function () {
 		}
 	}
 
+	function fromYYYYMMDDtoMMDDYYYY(dateStr) {
+		var splt = dateStr.split('-');
+		return splt[1] + '-' + splt[2] + '-' + splt[0];
+	}
+
 	function calendarEventToData(events) {
 		var dataLoaded = { inc: [], exp: [] };
 		events.forEach(function (cur) {
 			var summary = cur.summary;
-			var when = !!cur.start.dateTime ? cur.start.dateTime : cur.start.date;
+			// var when = !!cur.start.dateTime ? cur.start.dateTime : cur.start.date;
+			var when = fromYYYYMMDDtoMMDDYYYY(cur.start.date);
 			var splt = summary.split('$')
 			var description = splt.slice(0, splt.length - 1).join().trim();
 			var value = parseFloat(splt[splt.length - 1]);
@@ -666,19 +811,6 @@ var googleAPIController = (function () {
 		// return promise;
 		promise.then(function (response) {
 			var events = response.result.items;
-			// console.log('Upcoming events:');
-			// if (events.length > 0) {
-			// 	for (var i = 0; i < events.length; i++) {
-			// 		var event = events[i];
-			// 		var when = event.start.dateTime;
-			// 		if (!when) {
-			// 			when = event.start.date;
-			// 		}
-			// 		console.log(event.summary + ' (' + when + ')')
-			// 	}
-			// } else {
-			// 	console.log('No upcoming events found.');
-			// }
 			var dataLoaded = calendarEventToData(events);
 			actionWhenDataIsLoaded(dataLoaded);
 		})
@@ -1102,13 +1234,19 @@ var controller = (function (budgetCtrl, UICtrl, gApiCtrl) {
 		var dataToShow;
 		var el = e.target;
 		var dataAllItems = budgetCtrl.getAllDataItems();
-		if (el.id === DOMstrings.chartIncTab.slice(1)) {
-			dataToShow = dataAllItems.inc;
-			UICtrl.generateChart(dataToShow, DOMstrings.chartInc.slice(1));
-		} else if (el.id === DOMstrings.chartExpTab.slice(1)) {
-			dataToShow = dataAllItems.exp;
-			UICtrl.generateChart(dataToShow, DOMstrings.chartExp.slice(1));
-		}
+
+		UICtrl.generateChart(dataAllItems, el.id);
+
+		// if (el.id === DOMstrings.chartIncTab.slice(1)) {
+		// 	dataToShow = dataAllItems.inc;
+		// 	UICtrl.generateChart(dataToShow, DOMstrings.chartInc.slice(1));
+		// } else if (el.id === DOMstrings.chartExpTab.slice(1)) {
+		// 	dataToShow = dataAllItems.exp;
+		// 	UICtrl.generateChart(dataToShow, DOMstrings.chartExp.slice(1));
+		// } else if (el.id === DOMstrings.chartTimeTab.slice(1)) {
+		// 	dataToShow = dataAllItems.exp;
+		// 	UICtrl.generateChart(dataToShow, DOMstrings.chartTimed.slice(1));
+		// }
 	}
 
 	function onSignInChange(isSignedIn) {
