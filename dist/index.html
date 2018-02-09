@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Budgetfy Light</title>
+	<title>BudgetfyCal</title>
 
 	<meta name="google-signin-client_id" content="292585574072-b8cv3s6m1eqt8iq403r7bl0huvtdaht2.apps.googleusercontent.com">
 
@@ -36,7 +36,7 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
 		<div class="container">
-			<a class="navbar-brand js-scroll-trigger" href="#page-top">Budgetfy Light</a>
+			<a class="navbar-brand js-scroll-trigger" href="#page-top">BudgetfyCal</a>
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
 			 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				Menu
@@ -69,7 +69,47 @@
 					<div class="col-lg-8 mx-auto">
 						<h1 class="brand-heading">Budgetfy Light</h1>
 						<p class="intro-text">A simple tool for you to organize your incomes and expenses.</p>
-						<a href="#inc-exp" class="btn btn-circle js-scroll-trigger">
+						<!-- <p class="intro-text">Add your entries in G</p> -->
+					</div>
+				</div>
+				<div class="row mx-auto vertical-align">
+					<div class="col-sm-8 col-md-4 col-lg-4">
+						<div class="card">
+							<div class="card-body text-dark text-center">
+								Add an event to
+								<i class="fa fa-google fa-fw"></i> Calendar with a title as
+								<strong>"Description $value"</strong>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="col-sm-0 col-md-0 col-lg-1">
+						<!-- <i class="fa fa-arrow-right" aria-hidden="true"></i> -->
+					<!-- </div> -->
+					<div class="col-sm-8 col-md-4 col-lg-4 ">
+						<div class="card">
+							<div class="card-body text-dark text-center bigger">
+								<p style="font-size: 1.2rem;">Load your entries using BudgetFyCal</p>
+								<!-- <button type="button" class="btn btn-lg btn-secondary mb-2" >
+									LOAD FROM <i class="fa fa-google fa-fw"></i> Calendar
+								</button> -->
+							</div>
+						</div>
+					</div>
+					<!-- <div class="col-sm-0 col-md-0 col-lg-1">
+						<!-- <i class="fa fa-arrow-right" aria-hidden="true"></i> -->
+					<!-- </div> -->
+					<div class="col-sm-8 col-md-4 col-lg-4">
+						<div class="card">
+							<div class="card-body text-dark text-center">
+								 Analyse your expenses and incomes within a time period
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-8 mx-auto">
+						<a href="#load-img-section" class="btn btn-circle js-scroll-trigger">
 							<i class="fa fa-angle-double-down animated"></i>
 						</a>
 					</div>
@@ -77,6 +117,27 @@
 			</div>
 		</div>
 	</header>
+
+	<div class="content-section">
+		<div id="thumbnailwrapper">
+			<div id="load-img-section">
+				<a class="load-img-link" href="#" data-toggle="modal" data-target="#loadModal">
+					<img class="img-cal" src="../img/diary-1124013_640.png" width="20%" height="1%" alt="artist" border="1" />
+				</a>
+			</div>
+		</div>
+	
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mx-auto text-center">
+					<a href="#inc-exp" class="btn btn-circle js-scroll-trigger">
+						<i class="fa fa-angle-double-down animated"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- Income & Expenses Section -->
 	<section id="inc-exp" class="content-section text-center">
@@ -343,7 +404,7 @@
 							<p>Sign in to Google and click OK to retrieve Budget data from Google Calendar.</p>
 							<!-- <div id="my-signin2"></div> -->
 							<!-- <button id="authorize-button" style="display: none;">Authorize</button> -->
-							<button type="button" class="btn btn-primary auth-google" style="display: none;">
+							<button type="button" class="btn btn-primary auth-google" style="display: block;">
 								<i class="fa fa-google fa-fw"></i> Authorize
 							</button>
 							<button type="button" class="btn btn-primary signout-google" style="display: none;">

@@ -92,6 +92,60 @@
   /* font-size: 250%; */
 }
 
+.masthead .card {
+  opacity: 0.7;
+  font-weight: 800;
+  height: 100px;
+  font-size: 1.0rem;
+  /* width: 280px; */
+  /* position: abso */
+}
+.masthead .card-body {
+  padding-top: 10px;
+  text-align: left;
+}
+.fa-usd {
+  font-size: 48px;
+}
+/* .vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+} */
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+.fa-arrow-right {
+  font-size: 32px;
+}
+.card-img-area {
+  /* position: relative; */
+  /* top: -80px; */
+  /* left: -120px; */
+}
+.card-img {
+  display: inline-block;
+  color: rgb(73, 78, 78);
+  font-size: 32px;
+}
+
+.img-cal {
+  min-width: 200px;
+}
+
+#load-img-section a img {
+    display : block;
+    margin : auto;
+}
+
+.centerBlock {
+  display: table;
+  margin: auto;
+}
+
+/* ----------------------------------------------------- */
+
 /*  From template */
 body {
   font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
