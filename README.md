@@ -8,5 +8,5 @@ Organizing income and expenses in a simple fashion. Allows integration with Goog
 
 ## Todo
 
-- change focus to calendar on home
-- Select input to chose month or day in the timed chart
+- Select input to chose month or day in the timed chart;
+- Alert when no event is retrieved.
