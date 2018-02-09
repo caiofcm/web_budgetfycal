@@ -248,7 +248,9 @@ var UIController = (function () {
 		selectCal: $('#selectCal'),
 		datePickerLoad: $('.date-range-load input'),
 		datePickerLoadIni: $('#datePickerLoadIni'),
-		datePickerLoadEnd: $('#datePickerLoadEnd')
+		datePickerLoadEnd: $('#datePickerLoadEnd'),
+		loadImgLink: $('.load-img-link'),
+		calendarTabContent: $('#load-google-cal'),
 	};
 
 	var $addType = document.querySelector(DOMstrings.inputType);
@@ -373,6 +375,10 @@ var UIController = (function () {
 		return '<span style="font-size: 12px;"><em>' + value + '</em></span>';
 	};
 
+	var valueTableFormatter = function (value) {
+		return '<span style="font-size: 12px;">' + value + '</span>';
+	};	
+
 	var dateSorter = function (before, after) {
 		var mm_dd_yyyy = before.split('-');
 		var mm = parseInt(mm_dd_yyyy[0]);
@@ -434,7 +440,8 @@ var UIController = (function () {
 				"align": "center",
 				"class": "col-xs-4",
 				"sortable": true,
-				"sorter": valueSorter
+				"sorter": valueSorter,
+				"formatter": valueTableFormatter
 			}
 		]
 		return columns;
@@ -941,8 +948,19 @@ var controller = (function (budgetCtrl, UICtrl, gApiCtrl) {
 		DOMElements.removeTableRowBtnInc.on('click', clickRemoveTableRowBtnInc);
 		DOMElements.removeTableRowBtnExp.on('click', clickRemoveTableRowBtnExp);
 
-		DOMElements.authGoogle.on('click', gApiCtrl.signIn)
-		DOMElements.signoutGoogle.on('click', gApiCtrl.signOut)
+		DOMElements.authGoogle.on('click', gApiCtrl.signIn);
+		DOMElements.signoutGoogle.on('click', gApiCtrl.signOut);
+
+		DOMElements.loadImgLink.on('click', (e) => {
+			// $(DOMElements.calendarTabContent).addClass('active');
+			$('#nav-tab-load-cal').trigger('click');
+			
+			console.log('e', e);
+		});
+		// $('.img-cal').on('click', (e) => {
+		// 	console.log('e', e);
+		// });
+
 	};
 
 	var clickRemoveTableRowBtnInc = function (e) {
@@ -1140,7 +1158,12 @@ var controller = (function (budgetCtrl, UICtrl, gApiCtrl) {
 	var clickLoadData = function (e) {
 
 		// var budgetData = retrieveLoadedDataCases();
-		retrieveLoadedDataCases(actionWhenDataIsLoaded, actionWhenError);
+		if (gApiCtrl.isSignedIn()) {
+			retrieveLoadedDataCases(actionWhenDataIsLoaded, actionWhenError);
+		} else {
+			UICtrl.alertButton('No data loaded.');
+			$(DOMstrings.loadModal).modal('hide');
+		}
 		// loadDataAdjustUIFromObject(budgetData);
 
 		// // Close Modal
@@ -1176,8 +1199,10 @@ var controller = (function (budgetCtrl, UICtrl, gApiCtrl) {
 				selecEl.options.add(new Option(key, key));
 			});
 		} else if (el.id === 'nav-tab-load-cal') {
-			var promiseCalList = gApiCtrl.getListOfCalendarsPromise();
-			UICtrl.helperFillCalendarList(gApiCtrl.isSignedIn(), promiseCalList);
+			if (gApiCtrl.isSignedIn()) {
+				var promiseCalList = gApiCtrl.getListOfCalendarsPromise();
+				UICtrl.helperFillCalendarList(gApiCtrl.isSignedIn(), promiseCalList);
+			}
 			// if (gApiCtrl.isSignedIn()) {
 				// Load all calendars  and create a select input
 				// UICtrl.helperFillCalendarList(true, promiseCalList);
