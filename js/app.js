@@ -1359,13 +1359,13 @@ function listingToCalendarEvents() {
 	});
 }
 
-// // API FIXING ERROR:
-// window.onload = function (e) {
-// 	this.onload = function () { }; handleClientLoad()
-// }
-// window.onreadystatechange = function (e) {
-// 	if (this.readyState === 'complete') this.onload()
-// }
+// API FIXING ERROR:
+window.onload = function (e) {
+	this.onload = function () { }; handleClientLoad()
+}
+window.onreadystatechange = function (e) {
+	if (this.readyState === 'complete') this.onload()
+}
 
 /* ------ BUGS -------------
 - After save > Back to Load Storage > Select is not rendering the localStorage keys
