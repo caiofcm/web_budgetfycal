@@ -39,6 +39,8 @@
   // Collapse the navbar when page is scrolled
   $(window).scroll(navbarCollapse);
 
+  window.scroll(0, 0);
+
 })(jQuery); // End of use strict
 
 // // Google Maps Scripts
