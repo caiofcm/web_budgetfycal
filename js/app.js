@@ -1366,6 +1366,9 @@ window.onload = function (e) {
 window.onreadystatechange = function (e) {
 	if (this.readyState === 'complete') this.onload()
 }
+$(document).ready(function () {
+	$(this).scrollTop(0);
+});
 
 /* ------ BUGS -------------
 - After save > Back to Load Storage > Select is not rendering the localStorage keys
